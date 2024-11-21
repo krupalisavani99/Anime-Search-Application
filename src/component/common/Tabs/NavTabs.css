@@ -1,0 +1,14 @@
+.tabs-container {
+  margin-bottom: 15px;
+}
+
+.tabs-label {
+  font-size: 14px !important;
+  text-transform: capitalize !important;
+  color: #000 !important;
+  font-weight: 500 !important;
+}
+
+.tabs-container .MuiTabs-indicator {
+  background-color: #000;
+}

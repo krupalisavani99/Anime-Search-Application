@@ -43,7 +43,7 @@ const DataTable = ({ filteredData }) => {
     <Paper>
       <TableContainer>
         <Table>
-          <TableHead>
+          <TableHead sx={{backgroundColor:"#f0f0f0"}}>
             <TableRow>
               <TableCell>
                 <TableSortLabel

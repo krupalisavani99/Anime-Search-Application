@@ -1,16 +1,36 @@
 .App {
   text-align: center;
-  background-color: #f0f0f0;
   padding: 30px 40px;
 }
 
 .container {
-  background-color: #fff;
+  /* background-color: #fff; */
   border-radius: 15px;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 .search-container {
   display: flex;
   gap: 10px;
+}
+
+.header-container {
+  padding: 18px;
+  background-color: #fff;
+  border-radius: 16px 16px 0px 0px;
+}
+
+.chip-container {
+  margin: 16px 0px;
+  text-align: left;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.filtered-chip {
+  border: 2px dashed #f0f0f0 !important;
+  border-radius: 10px !important;
+  font-size: 12px !important;
+  background-color: #fff !important;
 }

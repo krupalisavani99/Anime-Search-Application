@@ -7,6 +7,7 @@ import SearchInput from "../common/SearchInput/SearchInput";
 import { Chip, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "../../App.css";
+
 const Layout = () => {
   const [selectedTab, setSelectedTab] = useState("");
   const [selectedType, setSelectedType] = useState("");
@@ -72,68 +73,65 @@ const Layout = () => {
 
   return (
     <div className="container">
-      <NavTabs
-        tabData={Array.from(
-          new Set(animeData.map((anime) => anime.status))
-        ).map((status) => ({ status }))}
-        onTabChange={handleTabChange}
-      />
-
-      <div className="search-container">
-        <Dropdown
-          options={Array.from(
-            new Set(animeData.map((anime) => anime.type))
-          ).map((type) => ({ type }))}
-          onChange={handleDropdownChange}
-          placeholder="Type"
-          displayKey="type"
+      <div className="header-container">
+        <NavTabs
+          tabData={Array.from(
+            new Set(animeData.map((anime) => anime.status))
+          ).map((status) => ({ status }))}
+          onTabChange={handleTabChange}
         />
 
-        <SearchInput
-          value={searchQuery}
-          onChange={handleSearchChange}
-          placeholder="Search Anime"
-        />
-      </div>
+        <div className="search-container">
+          <Dropdown
+            options={Array.from(
+              new Set(animeData.map((anime) => anime.type))
+            ).map((type) => ({ type }))}
+            onChange={handleDropdownChange}
+            placeholder="Type"
+            displayKey="type"
+          />
 
-      <div style={{ margin: "16px 0" }}>
-        {selectedType && (
-          <Chip
-            label={`Type: ${selectedType}`}
-            onDelete={() => handleChipDelete("type")}
-            color="primary"
-            style={{ marginRight: 8 }}
+          <SearchInput
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Search Anime"
           />
-        )}
-        {selectedTab && (
-          <Chip
-            label={`Tab: ${selectedTab}`}
-            onDelete={() => handleChipDelete("tab")}
-            color="secondary"
-            style={{ marginRight: 8 }}
-          />
-        )}
-        {searchQuery && (
-          <Chip
-            label={`Title: ${searchQuery}`}
-            onDelete={() => handleChipDelete("title")}
-            color="secondary"
-            style={{ marginRight: 8 }}
-          />
-        )}
-        {(selectedTab || selectedType || searchQuery) && (
-          <Button
-            onClick={handleClearFilters}
-            variant="outlined"
-            color="error"
-            startIcon={<DeleteIcon />}
-            style={{ marginLeft: "auto" }}
-          >
-            Clear Filters
-          </Button>
-        )}
-      </div>
+        </div>
 
+        <div className="chip-container">
+          {selectedType && (
+            <Chip
+              label={`Type: ${selectedType}`}
+              onDelete={() => handleChipDelete("type")}
+              className="filtered-chip"
+            />
+          )}
+          {selectedTab && (
+            <Chip
+              label={`Tab: ${selectedTab}`}
+              onDelete={() => handleChipDelete("tab")}
+              className="filtered-chip"
+            />
+          )}
+          {searchQuery && (
+            <Chip
+              label={`Title: ${searchQuery}`}
+              onDelete={() => handleChipDelete("title")}
+              className="filtered-chip"
+            />
+          )}
+          {(selectedTab || selectedType || searchQuery) && (
+            <Button
+              onClick={handleClearFilters}
+              variant="text"
+              color="error"
+              startIcon={<DeleteIcon />}
+            >
+              Clear
+            </Button>
+          )}
+        </div>
+      </div>
       {filteredData.length === 0 ? (
         <p style={{ textAlign: "center", marginTop: "20px", fontSize: "16px" }}>
           No characters or anime found.

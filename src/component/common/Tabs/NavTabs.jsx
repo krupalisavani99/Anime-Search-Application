@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Tabs, Tab, Box } from "@mui/material";
 import PropTypes from "prop-types";
+import "./NavTabs.css";
 
 const NavTabs = ({ tabData, onTabChange }) => {
   const [value, setValue] = useState(0);
@@ -14,9 +15,14 @@ const NavTabs = ({ tabData, onTabChange }) => {
 
   return (
     <Box>
-      <Tabs value={value} onChange={handleChange} aria-label="status tabs">
-        {tabData.map((item, index) => (
-          <Tab key={index} label={item.status || "Unknown"} />
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        aria-label="status tabs"
+        className="tabs-container"
+      >
+        {tabData?.map((item, index) => (
+          <Tab key={index} label={item.status || "Unknown"} className="tabs-label"/>
         ))}
       </Tabs>
     </Box>
