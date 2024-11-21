@@ -5,6 +5,15 @@ import SearchIcon from "@mui/icons-material/Search";
 const SearchInput = ({ value, onChange, placeholder }) => {
   return (
     <TextField
+      sx={{
+        "& .MuiOutlinedInput-input": {
+          borderColor: "lightgray",
+          padding: "10px",
+          borderRadius: "10px",
+          fontSize: "12px",
+          color: "gray",
+        },
+      }}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}

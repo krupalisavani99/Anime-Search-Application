@@ -1,9 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./Dropdown.css";
 
 const Dropdown = ({ options, onChange, placeholder, displayKey }) => {
   return (
-    <select onChange={(e) => onChange(e.target.value)} className="dropdown">
+    <select
+      onChange={(e) => onChange(e.target.value)}
+      className="dropdown-input"
+    >
       <option value="">{placeholder}</option>
       {options.map((option, index) => (
         <option key={index} value={option[displayKey]}>

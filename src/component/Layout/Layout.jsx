@@ -6,7 +6,7 @@ import DataTable from "../common/DataTable/DataTable";
 import SearchInput from "../common/SearchInput/SearchInput";
 import { Chip, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import "../../App.css";
 const Layout = () => {
   const [selectedTab, setSelectedTab] = useState("");
   const [selectedType, setSelectedType] = useState("");
@@ -71,7 +71,7 @@ const Layout = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
+    <div className="container">
       <NavTabs
         tabData={Array.from(
           new Set(animeData.map((anime) => anime.status))
@@ -79,20 +79,22 @@ const Layout = () => {
         onTabChange={handleTabChange}
       />
 
-      <Dropdown
-        options={Array.from(new Set(animeData.map((anime) => anime.type))).map(
-          (type) => ({ type })
-        )}
-        onChange={handleDropdownChange}
-        placeholder="Type"
-        displayKey="type"
-      />
+      <div className="search-container">
+        <Dropdown
+          options={Array.from(
+            new Set(animeData.map((anime) => anime.type))
+          ).map((type) => ({ type }))}
+          onChange={handleDropdownChange}
+          placeholder="Type"
+          displayKey="type"
+        />
 
-      <SearchInput
-        value={searchQuery}
-        onChange={handleSearchChange}
-        placeholder="Search Anime"
-      />
+        <SearchInput
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Search Anime"
+        />
+      </div>
 
       <div style={{ margin: "16px 0" }}>
         {selectedType && (
