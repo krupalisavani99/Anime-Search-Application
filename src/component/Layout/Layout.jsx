@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import NavTabs from "../common/Tabs/NavTabs";
 import useFetch from "../../hooks/useFetch";
 import Dropdown from "../common/Dropdown/Dropdown";
@@ -6,67 +6,18 @@ import DataTable from "../common/DataTable/DataTable";
 import SearchInput from "../common/SearchInput/SearchInput";
 import { Chip, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import useFilteredData from "../../hooks/useFilteredData";
 import "../../App.css";
 
 const Layout = () => {
-  const [selectedTab, setSelectedTab] = useState("");
-  const [selectedType, setSelectedType] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
-
   const {
     data: animeData,
     loading,
     error,
   } = useFetch("https://api.jikan.moe/v4/anime");
 
-  useEffect(() => {
-    if (animeData) {
-      const filtered = animeData.filter((anime) => {
-        const matchesTab =
-          !selectedTab ||
-          anime.status?.toLowerCase() === selectedTab.toLowerCase();
-        const matchesType =
-          !selectedType ||
-          anime.type?.toLowerCase() === selectedType.toLowerCase();
-        const matchesSearch =
-          !searchQuery ||
-          anime.title.toLowerCase().includes(searchQuery.toLowerCase());
-
-        return matchesTab && matchesType && matchesSearch;
-      });
-      setFilteredData(filtered);
-    }
-  }, [animeData, selectedTab, selectedType, searchQuery]);
-
-  const handleTabChange = (tab) => {
-    setSelectedTab(tab);
-  };
-
-  const handleDropdownChange = (value) => {
-    setSelectedType(value);
-  };
-
-  const handleSearchChange = (value) => {
-    setSearchQuery(value);
-  };
-
-  const handleChipDelete = (chipType) => {
-    if (chipType === "type") {
-      setSelectedType("");
-    } else if (chipType === "tab") {
-      setSelectedTab("");
-    } else if (chipType === "title") {
-      setSearchQuery("");
-    }
-  };
-
-  const handleClearFilters = () => {
-    setSelectedTab("");
-    setSelectedType("");
-    setSearchQuery("");
-    setFilteredData(animeData);
-  };
+  const { filteredData, filters, updateFilter, clearFilters } =
+    useFilteredData(animeData);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -77,52 +28,56 @@ const Layout = () => {
         <NavTabs
           tabData={Array.from(
             new Set(animeData.map((anime) => anime.status))
-          ).map((status) => ({ status }))}
-          onTabChange={handleTabChange}
+          ).map((status) => ({
+            status,
+          }))}
+          onTabChange={(tab) => updateFilter("tab", tab)}
         />
 
         <div className="search-container">
           <Dropdown
             options={Array.from(
               new Set(animeData.map((anime) => anime.type))
-            ).map((type) => ({ type }))}
-            onChange={handleDropdownChange}
+            ).map((type) => ({
+              type,
+            }))}
+            onChange={(value) => updateFilter("type", value)}
             placeholder="Type"
             displayKey="type"
           />
 
           <SearchInput
-            value={searchQuery}
-            onChange={handleSearchChange}
+            value={filters.search}
+            onChange={(value) => updateFilter("search", value)}
             placeholder="Search Anime"
           />
         </div>
 
         <div className="chip-container">
-          {selectedType && (
+          {filters.type && (
             <Chip
-              label={`Type: ${selectedType}`}
-              onDelete={() => handleChipDelete("type")}
+              label={`Type: ${filters.type}`}
+              onDelete={() => updateFilter("type", "")}
               className="filtered-chip"
             />
           )}
-          {selectedTab && (
+          {filters.tab && (
             <Chip
-              label={`Tab: ${selectedTab}`}
-              onDelete={() => handleChipDelete("tab")}
+              label={`Tab: ${filters.tab}`}
+              onDelete={() => updateFilter("tab", "")}
               className="filtered-chip"
             />
           )}
-          {searchQuery && (
+          {filters.search && (
             <Chip
-              label={`Title: ${searchQuery}`}
-              onDelete={() => handleChipDelete("title")}
+              label={`Title: ${filters.search}`}
+              onDelete={() => updateFilter("search", "")}
               className="filtered-chip"
             />
           )}
-          {(selectedTab || selectedType || searchQuery) && (
+          {(filters.tab || filters.type || filters.search) && (
             <Button
-              onClick={handleClearFilters}
+              onClick={clearFilters}
               variant="text"
               color="error"
               startIcon={<DeleteIcon />}
