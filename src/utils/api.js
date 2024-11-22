@@ -1,4 +1,3 @@
-// src/utils/api.js
 export const fetchFromAPI = async (url) => {
     try {
       const response = await fetch(url);

@@ -15,7 +15,7 @@ const DataTable = ({ filteredData }) => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("rank");
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleRequestSort = (property) => {
     const isAscending = orderBy === property && order === "asc";
@@ -104,6 +104,7 @@ const DataTable = ({ filteredData }) => {
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+        rowsPerPageOptions={[]} 
       />
     </Paper>
   );
