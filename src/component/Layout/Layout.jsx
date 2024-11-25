@@ -16,6 +16,7 @@ const Layout = () => {
     error,
   } = useFetch("https://api.jikan.moe/v4/anime");
 
+  console.log("data", animeData );
   const { filteredData, filters, updateFilter, clearFilters } =
     useFilteredData(animeData);
 

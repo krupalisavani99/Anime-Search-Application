@@ -10,6 +10,7 @@ import {
   TablePagination,
   Paper,
 } from "@mui/material";
+import "./DataTable.css";
 
 const DataTable = ({ filteredData }) => {
   const [order, setOrder] = useState("asc");
@@ -43,7 +44,7 @@ const DataTable = ({ filteredData }) => {
     <Paper>
       <TableContainer>
         <Table>
-          <TableHead sx={{backgroundColor:"#f0f0f0"}}>
+          <TableHead sx={{ backgroundColor: "#f0f0f0" }}>
             <TableRow>
               <TableCell>
                 <TableSortLabel
@@ -88,10 +89,26 @@ const DataTable = ({ filteredData }) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow key={row.mal_id}>
-                  <TableCell>{row.title}</TableCell>
-                  <TableCell>{row.rank}</TableCell>
-                  <TableCell>{row.type}</TableCell>
-                  <TableCell>{row.status}</TableCell>
+                  <TableCell className="title-col">
+                    {row?.images.jpg?.image_url && (
+                      <img
+                        src={row?.images?.jpg.image_url}
+                        alt="anime-img"
+                        className="anime-img"
+                      />
+                    )}
+                    <div className="title-container">
+                      <label>{row.title}</label>
+                      {row?.episodes && (
+                        <label className="episodes-no-label">
+                          Episodes: {row?.episodes}
+                        </label>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>{row?.rank}</TableCell>
+                  <TableCell>{row?.type}</TableCell>
+                  <TableCell>{row?.status}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
@@ -104,7 +121,7 @@ const DataTable = ({ filteredData }) => {
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[]} 
+        rowsPerPageOptions={[]}
       />
     </Paper>
   );
